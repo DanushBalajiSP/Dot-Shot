@@ -1,13 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
-header {
-    background: #d4ecf1;
+@keyframes headerFadeIn {
+    from { opacity: 0; transform: translateY(-20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.header-content {
     padding: 1rem;
-    border-bottom: 2px solid black;
-    border-radius: 10px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #00000077;
+    border-radius: 10px;
+    box-shadow: 0 10px 24px 0px rgba(0, 0, 0, 0.306);
+    z-index: 1;
 }
 .header-title {
     margin: 0 0 0 1rem;
@@ -15,17 +23,25 @@ header {
     font-weight: bold;
     font-family: 'Russo One', sans-serif;
     letter-spacing: 1px;
-    color: #333;
+    color: palevioletred;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: headerFadeIn 1.2s ease-in forwards;
 }
 .header-list {
     list-style: none;
     padding: 0;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: headerFadeIn 1.2s ease-in forwards;
 }
 .header-item {
     display: inline-block;
     margin-right: 1rem;
     font-family: 'Russo One', sans-serif;
-    color: #333333bb;
+    color: #d870938f;
     text-decoration: none;
     position: relative;
     transition: color 0.3s;
@@ -43,11 +59,11 @@ header {
     bottom: -2px;
     width: 0;
     height: 2px;
-    background: #000;
+    background: palevioletred;
     transition: width 0.3s;
 }
 .header-item:hover {
-    color: #000;
+    color: palevioletred;
 }
 .header-item:hover::after {
     width: 100%;
