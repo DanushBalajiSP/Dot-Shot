@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -17,25 +19,79 @@
     height: 70vh;
     margin: auto;
     text-align: center;
-    /* animation: slideIn 1.2s ease-in-out;
-    animation-delay: 0.5s;
-    animation-fill-mode: forwards;
-    opacity: 0; */
 }
 .body-main h1 {
+    font-family: 'Russo One', sans-serif;
     font-size: 2.5rem;
     margin-bottom: 20px;
     color: #333;
-    /* animation: fadeIn 1s ease-in-out;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-    opacity: 0; */
 }
 .body-main p {
+    font-family: 'Russo One', sans-serif;
     font-size: 1.2rem;
     color: #666;
-    /* animation: fadeIn 1s ease-in-out;
-    animation-delay: 1.5s;
-    animation-fill-mode: forwards;
-    opacity: 0; */
+}
+
+.start-button {
+    width: 220px;
+    height: 50px;
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    font-family: 'Russo One', sans-serif;
+    font-weight: bold;
+    color: #E54B98;
+    background: #111111be;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.start-button:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.start-button:active {
+    color: #000;
+}
+
+.start-button:active:after {
+    background: transparent;
+}
+
+.start-button:hover:before {
+    opacity: 1;
+}
+
+.start-button:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111111d3;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
 }

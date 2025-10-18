@@ -1,0 +1,447 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Section */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.back-home-btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Russo One', sans-serif;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-home-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateX(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.game-message {
+  flex: 1;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: 'Russo One', sans-serif;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+}
+
+/* Toss Button */
+.toss-btn {
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Russo One', sans-serif;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.toss-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.toss-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-btn {
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Russo One', sans-serif;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.reset-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Main Play Area - Split Screen */
+.play-area {
+  display: flex;
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.player-side,
+.opponent-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  min-width: 0;
+}
+
+.player-side {
+  background: rgba(66, 153, 225, 0.1);
+}
+
+.opponent-side {
+  background: rgba(236, 64, 122, 0.1);
+}
+
+.divider-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  z-index: 10;
+}
+
+.divider-line {
+  width: 4px;
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.dice-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+}
+
+.action-buttons {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 100;
+  animation: fadeSlideIn 0.4s ease;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.attack-choice-btn,
+.heal-choice-btn {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.attack-choice-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+}
+
+.heal-choice-btn {
+  background: linear-gradient(135deg, #51cf66 0%, #2f9e44 100%);
+}
+
+.attack-choice-btn:hover,
+.heal-choice-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.attack-choice-btn:active,
+.heal-choice-btn:active {
+  transform: translateY(-1px);
+}
+
+.cancel-attack-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #868e96 0%, #495057 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.cancel-attack-btn:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-header {
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .game-message {
+    min-width: 100%;
+    font-size: 0.9rem;
+    font-family: 'Russo One', sans-serif;
+
+  }
+
+  .play-area {
+    flex-direction: column;
+  }
+
+  .divider-container {
+    width: 100%;
+    height: 120px;
+    flex-direction: row;
+  }
+
+  .divider-line {
+    width: auto;
+    height: 4px;
+    flex: 1;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.1)
+    );
+  }
+
+  .dice-wrapper {
+    margin: 0 10px;
+  }
+
+  .player-side,
+  .opponent-side {
+    padding: 20px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .attack-choice-btn,
+  .heal-choice-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* WINNER CELEBRATION */
+
+/* Winner Header Animation */
+.game-header.winner-header {
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  animation: winnerPulse 1s infinite;
+}
+
+@keyframes winnerPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34, 197, 94, 1);
+  }
+}
+
+.winner-header .game-message {
+  background: linear-gradient(135deg, #fef3c7, #fde047);
+  color: #059669;
+  font-size: 1.3rem;
+  font-weight: 800;
+  animation: messageGlow 1s infinite;
+}
+
+@keyframes messageGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(34, 197, 94, 0.7);
+  }
+}
+
+/* Celebration Overlay */
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+}
+
+.celebration-content {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #fef3c7, #fde047);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.celebration-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #059669;
+  text-shadow: 
+    0 0 20px rgba(34, 197, 94, 0.8),
+    0 0 40px rgba(34, 197, 94, 0.6);
+  margin: 20px 0;
+  animation: titleBounce 0.5s ease infinite alternate;
+}
+
+@keyframes titleBounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.celebration-emoji {
+  font-size: 3rem;
+  animation: emojiSpin 2s linear infinite;
+}
+
+@keyframes emojiSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Confetti Animation */
+.confetti {
+  position: absolute;
+  font-size: 2rem;
+  animation: confettiFall 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes confettiFall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    transform: translateX(100px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive Celebration */
+@media (max-width: 768px) {
+  .celebration-title {
+    font-size: 2.5rem;
+  }
+  
+  .celebration-emoji {
+    font-size: 2rem;
+  }
+  
+  .celebration-content {
+    padding: 30px 20px;
+  }
+}
