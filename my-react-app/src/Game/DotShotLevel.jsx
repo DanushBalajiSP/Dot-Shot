@@ -35,7 +35,7 @@ const DotShotLevel = ({ level }) => {
   return (
     <div className="dotshot-level">
       <div className="shot-chamber">
-        {Array(6).fill(0).map((_, idx) => (
+        {Array(4).fill(0).map((_, idx) => (
           <div 
             key={idx} 
             className={`shot-dot ${idx < level ? 'loaded' : 'empty'}`}

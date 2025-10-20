@@ -322,27 +322,27 @@
 /* Winner Header Animation */
 .game-header.winner-header {
   background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-  animation: winnerPulse 1s infinite;
+  /* animation: winnerPulse 1s infinite; */
 }
 
-@keyframes winnerPulse {
+/* @keyframes winnerPulse {
   0%, 100% {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
   }
   50% {
     box-shadow: 0 0 40px rgba(34, 197, 94, 1);
   }
-}
+} */
 
 .winner-header .game-message {
   background: linear-gradient(135deg, #fef3c7, #fde047);
   color: #059669;
   font-size: 1.3rem;
   font-weight: 800;
-  animation: messageGlow 1s infinite;
+  /* animation: messageGlow 1s infinite; */
 }
 
-@keyframes messageGlow {
+/* @keyframes messageGlow {
   0%, 100% {
     transform: scale(1);
     box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
@@ -351,7 +351,7 @@
     transform: scale(1.05);
     box-shadow: 0 6px 30px rgba(34, 197, 94, 0.7);
   }
-}
+} */
 
 /* Celebration Overlay */
 .celebration-overlay {
@@ -384,52 +384,38 @@
     0 0 20px rgba(34, 197, 94, 0.8),
     0 0 40px rgba(34, 197, 94, 0.6);
   margin: 20px 0;
-  animation: titleBounce 0.5s ease infinite alternate;
+  /* animation: titleBounce 0.5s ease infinite alternate; */
 }
 
-@keyframes titleBounce {
+/* @keyframes titleBounce {
   from {
     transform: translateY(0);
   }
   to {
     transform: translateY(-10px);
   }
-}
-
-.celebration-emoji {
-  font-size: 3rem;
-  animation: emojiSpin 2s linear infinite;
-}
-
-@keyframes emojiSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+} */
 
 /* Confetti Animation */
 .confetti {
   position: absolute;
   font-size: 2rem;
-  animation: confettiFall 3s linear infinite;
+  /* animation: confettiFall 3s linear infinite; */
   pointer-events: none;
 }
 
-@keyframes confettiFall {
+/* @keyframes confettiFall {
   0% {
     top: -10%;
-    transform: translateX(0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
     opacity: 1;
   }
   100% {
     top: 100%;
-    transform: translateX(100px) rotate(720deg);
+    transform: translate3d(100px, 0, 0) rotate(720deg);
     opacity: 0;
   }
-}
+} */
 
 /* Responsive Celebration */
 @media (max-width: 768px) {

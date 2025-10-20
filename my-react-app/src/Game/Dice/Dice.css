@@ -1,58 +1,293 @@
-/* Dice.css */
+/* Dice.css - 3D Dice with PERFECT faces and NO GAPS */
 
-.dice {
+.dice-container {
   cursor: pointer;
   user-select: none;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 20px;
 }
 
-.dice-image {
-  width: 80px;
-  height: 80px;
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
-}
-
-.dice:hover:not(.disabled) .dice-image {
-  transform: scale(1.1);
-  filter: drop-shadow(0 6px 15px rgba(255, 255, 255, 0.5));
-}
-
-.dice.disabled {
+.dice-container.disabled {
   opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-.dice.rolling {
+.dice-container.rolling {
   pointer-events: none;
 }
 
-.dice.rolling .dice-image {
-  animation: diceShake 0.1s infinite;
+/* 3D Scene Setup */
+.dice-scene {
+  width: 100px;
+  height: 100px;
+  perspective: 1000px;
 }
 
-@keyframes diceShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px) rotate(-2deg); }
-  75% { transform: translateX(2px) rotate(2deg); }
+.dice-cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease;
+}
+
+.dice-container:hover:not(.disabled):not(.rolling) .dice-cube {
+  transform: rotateX(-10deg) rotateY(10deg) scale(1.05);
+}
+
+/* FIXED: Base Dice Face - Proper sizing to eliminate gaps */
+.dice-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  border: none; /* remove the thick border causing gaps */
+  border-radius: 12px; /* round edges */
+  display: grid;
+  padding: 12px;
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  backface-visibility: hidden; /* prevent flicker */
+}
+
+/* FIXED: Face Positions - Adjusted translateZ to prevent gaps */
+.dice-face-1 { transform: rotateY(0deg) translateZ(49.9px); }
+.dice-face-2 { transform: rotateY(90deg) translateZ(49.9px); }
+.dice-face-3 { transform: rotateX(90deg) translateZ(49.9px); }
+.dice-face-4 { transform: rotateX(-90deg) translateZ(49.9px); }
+.dice-face-5 { transform: rotateY(-90deg) translateZ(49.9px); }
+.dice-face-6 { transform: rotateY(180deg) translateZ(49.9px); }
+
+/* Dice Dots - Base Style */
+.dot {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(145deg, #667eea, #764ba2);
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   FACE 1 - Single Dot (Center)
+   ============================================ */
+.dice-face-1 {
+  grid-template-areas: "a a a"
+                       "a b a"
+                       "a a a";
+  place-items: center;
+  padding: 12px;
+}
+
+.dice-face-1 .dot {
+  grid-area: b;
+}
+
+/* ============================================
+   FACE 2 - Two Dots (Diagonal)
+   ============================================ */
+.dice-face-2 {
+  grid-template-areas: "a . ."
+                       ". . ."
+                       ". . b";
+  place-items: center;
+}
+
+.dice-face-2 .dot:nth-child(1) {
+  grid-area: a;
+}
+
+.dice-face-2 .dot:nth-child(2) {
+  grid-area: b;
+}
+
+/* ============================================
+   FACE 3 - Three Dots (Diagonal)
+   ============================================ */
+.dice-face-3 {
+  grid-template-areas: "a . ."
+                       ". b ."
+                       ". . c";
+  place-items: center;
+}
+
+.dice-face-3 .dot:nth-child(1) {
+  grid-area: a;
+}
+
+.dice-face-3 .dot:nth-child(2) {
+  grid-area: b;
+}
+
+.dice-face-3 .dot:nth-child(3) {
+  grid-area: c;
+}
+
+/* ============================================
+   FACE 4 - Four Dots (FIXED: Corner Layout)
+   ============================================ */
+.dice-face-4 {
+  grid-template-areas: "a . b"
+                       ". . ."
+                       "c . d";
+  place-items: center;
+  padding: 18px;
+}
+
+.dice-face-4 .dot:nth-child(1) {
+  grid-area: a;
+}
+
+.dice-face-4 .dot:nth-child(2) {
+  grid-area: b;
+}
+
+.dice-face-4 .dot:nth-child(3) {
+  grid-area: c;
+}
+
+.dice-face-4 .dot:nth-child(4) {
+  grid-area: d;
+}
+
+/* ============================================
+   FACE 5 - Five Dots (FIXED: Corners + Center)
+   ============================================ */
+.dice-face-5 {
+  grid-template-areas: "a . b"
+                       ". c ."
+                       "d . e";
+  place-items: center;
+  padding: 18px;
+}
+
+.dice-face-5 .dot:nth-child(1) {
+  grid-area: a;
+}
+
+.dice-face-5 .dot:nth-child(2) {
+  grid-area: b;
+}
+
+.dice-face-5 .dot:nth-child(3) {
+  grid-area: c;
+}
+
+.dice-face-5 .dot:nth-child(4) {
+  grid-area: d;
+}
+
+.dice-face-5 .dot:nth-child(5) {
+  grid-area: e;
+}
+
+/* ============================================
+   FACE 6 - Six Dots (Two Columns)
+   ============================================ */
+.dice-face-6 {
+  grid-template-areas: "a . b"
+                       "c . d"
+                       "e . f";
+  place-items: center;
+  padding: 18px;
+}
+
+.dice-face-6 .dot:nth-child(1) {
+  grid-area: a;
+}
+
+.dice-face-6 .dot:nth-child(2) {
+  grid-area: b;
+}
+
+.dice-face-6 .dot:nth-child(3) {
+  grid-area: c;
+}
+
+.dice-face-6 .dot:nth-child(4) {
+  grid-area: d;
+}
+
+.dice-face-6 .dot:nth-child(5) {
+  grid-area: e;
+}
+
+.dice-face-6 .dot:nth-child(6) {
+  grid-area: f;
+}
+
+/* Floating Face Animation */
+.magic-ball {
+  pointer-events: none;
+  filter: blur(1px);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .dice-image {
-    width: 70px;
-    height: 70px;
+  .dice-scene {
+    width: 80px;
+    height: 80px;
+  }
+
+  .dice-face {
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+  }
+
+  /* Adjust translateZ for smaller size */
+  .dice-face-1 { transform: rotateY(0deg) translateZ(40.5px); }
+  .dice-face-2 { transform: rotateY(90deg) translateZ(40.5px); }
+  .dice-face-3 { transform: rotateX(90deg) translateZ(40.5px); }
+  .dice-face-4 { transform: rotateX(-90deg) translateZ(40.5px); }
+  .dice-face-5 { transform: rotateY(-90deg) translateZ(40.5px); }
+  .dice-face-6 { transform: rotateY(180deg) translateZ(40.5px); }
+
+  .dice-face-4,
+  .dice-face-5,
+  .dice-face-6 {
+    padding: 14px;
+  }
+
+  .dot {
+    width: 13px;
+    height: 13px;
   }
 }
 
 @media (max-width: 480px) {
-  .dice-image {
-    width: 60px;
-    height: 60px;
+  .dice-scene {
+    width: 70px;
+    height: 70px;
+  }
+
+  .dice-face {
+    width: 70px;
+    height: 70px;
+    padding: 8px;
+  }
+
+  /* Adjust translateZ for smallest size */
+  .dice-face-1 { transform: rotateY(0deg) translateZ(35.5px); }
+  .dice-face-2 { transform: rotateY(90deg) translateZ(35.5px); }
+  .dice-face-3 { transform: rotateX(90deg) translateZ(35.5px); }
+  .dice-face-4 { transform: rotateX(-90deg) translateZ(35.5px); }
+  .dice-face-5 { transform: rotateY(-90deg) translateZ(35.5px); }
+  .dice-face-6 { transform: rotateY(180deg) translateZ(35.5px); }
+
+  .dice-face-4,
+  .dice-face-5,
+  .dice-face-6 {
+    padding: 12px;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
   }
 }

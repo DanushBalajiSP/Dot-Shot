@@ -117,47 +117,104 @@ function GameBoard({ onBackToHome }) {
     return false;
   };
 
-  const triggerCelebration = (winnerName) => {
-    const overlay = document.createElement('div');
-    overlay.className = 'celebration-overlay';
-    overlay.innerHTML = `
-      <div class="celebration-content">
-        <h1 class="celebration-title">${winnerName} WINS!</h1>
-      </div>
-    `;
-    document.body.appendChild(overlay);
+  // Update the triggerCelebration function
+const triggerCelebration = (winnerName) => {
+  const overlay = document.createElement('div');
+  overlay.className = 'celebration-overlay';
+  overlay.innerHTML = `
+    <div class="celebration-content">
+      <h1 class="celebration-title">${winnerName} WINS!</h1>
+    </div>
+  `;
+  document.body.appendChild(overlay);
 
-    // Animate celebration
-    gsap.fromTo('.celebration-overlay', 
-      { opacity: 0 },
-      { opacity: 1, duration: 0.5 }
-    );
+  // Create GSAP timeline for celebration animations
+  const tl = gsap.timeline();
 
-    gsap.from('.celebration-content', {
-      scale: 0,
-      rotation: -180,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
-    });
+  // Fade in overlay
+  tl.fromTo('.celebration-overlay',
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5 }
+  );
 
-    // Confetti effect (simple emoji burst)
-    for (let i = 0; i < 30; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti';
-      confetti.textContent = ['🎉', '🎊', '⭐', '✨', '🏆'][Math.floor(Math.random() * 5)];
-      confetti.style.left = Math.random() * 100 + '%';
-      confetti.style.animationDelay = Math.random() * 2 + 's';
-      overlay.appendChild(confetti);
-    }
+  // Animate celebration content
+  tl.from('.celebration-content', {
+    scale: 0,
+    rotation: -180,
+    duration: 0.8,
+    ease: 'back.out(1.7)'
+  });
 
-    setTimeout(() => {
-      gsap.to('.celebration-overlay', {
+  // Animate title bounce
+  gsap.to('.celebration-title', {
+    y: -10,
+    duration: 0.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut'
+  });
+
+  // Header pulse animation
+  gsap.to('.game-header.winner-header', {
+    boxShadow: '0 0 40px rgba(34, 197, 94, 1)',
+    duration: 0.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut'
+  });
+
+  // Message glow animation
+  gsap.to('.winner-header .game-message', {
+    scale: 1.05,
+    boxShadow: '0 6px 30px rgba(34, 197, 94, 0.7)',
+    duration: 0.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut'
+  });
+
+  // Create confetti
+  for (let i = 0; i < 30; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.textContent = ['🎉', '🎊', '⭐', '✨', '🏆'][Math.floor(Math.random() * 5)];
+    confetti.style.left = Math.random() * 100 + '%';
+    overlay.appendChild(confetti);
+
+    // Animate each confetti piece
+    gsap.fromTo(confetti,
+      {
+        top: '-10%',
+        rotation: 0,
+        opacity: 1
+      },
+      {
+        top: '100%',
+        x: gsap.utils.random(-100, 100),
+        rotation: gsap.utils.random(360, 720),
         opacity: 0,
-        duration: 0.5,
-        onComplete: () => overlay.remove()
-      });
-    }, 5000);
-  };
+        duration: gsap.utils.random(2, 4),
+        ease: 'none',
+        repeat: -1
+      }
+    );
+  }
+
+  // Remove overlay after 5 seconds
+  setTimeout(() => {
+    gsap.to('.celebration-overlay', {
+      opacity: 0,
+      duration: 0.5,
+      onComplete: () => {
+        overlay.remove();
+        // Kill all GSAP animations when removing overlay
+        gsap.killTweensOf('.celebration-title');
+        gsap.killTweensOf('.game-header.winner-header');
+        gsap.killTweensOf('.winner-header .game-message');
+      }
+    });
+  }, 5000);
+};
 
   const onDiceRoll = (value) => {
     if (!gameStarted) {
